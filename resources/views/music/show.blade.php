@@ -18,7 +18,7 @@
             <br/>
 
 
-                <audio controls controlsList="nodownload">
+                <audio controls {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}>
                     <source src="{{asset($music->audio_url)}}" >
                     Тег audio не поддерживается вашим браузером.
                 </audio>

@@ -10,7 +10,7 @@
         @foreach($musics as $music)
            <a href="{{route('music.show', $music->id)}}">{{$music->name}} </a> (<small>{{$music->created_at->format('d-m-Y')}}</small>)<br/>
 
-            {{--{!! !empty($article->img_url) ? '<img src="'. asset($article->img_url) .'" alt="'.$article->title.'" style="width:250px; height: 250px; ">' : null !!}<br/>--}}
+
         @endforeach
     </div>
 @endsection
