@@ -44,3 +44,12 @@ Route::group(['prefix'=>'music'], function (){
    Route::put('/edit/{id}', 'MusicController@update')->name('music.update');
    Route::get('/delete/{id}', 'MusicController@destroy')->name('music.delete');
 });
+Route::group(['prefix'=>'playlist'], function (){
+   Route::get('/', 'PlaylistController@index')->name('playlist.index');
+   Route::get('/create', 'PlaylistController@create')->name('playlist.create');
+   Route::post('/store', 'PlaylistController@store')->name('playlist.store');
+    Route::get('/show/{id}', 'PlaylistController@show')->name('playlist.show');
+   Route::get('/edit/{id}', 'PlaylistController@edit')->name('playlist.edit');
+   Route::put('/edit/{id}', 'PlaylistController@update')->name('playlist.update');
+   Route::get('/delete/{id}', 'PlaylistController@destroy')->name('playlist.delete');
+});
