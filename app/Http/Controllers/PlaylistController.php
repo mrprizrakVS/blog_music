@@ -9,62 +9,53 @@ class PlaylistController extends Controller
 {
     public function index()
     {
-        $articles = Playlist::all();
-        return view('article.index', compact('articles'));
+        $playlists = Playlist::all();
+        return view('playlist.index', compact('playlists'));
     }
 
     public function show($id)
     {
-        $article = Playlist::findOrFail($id);
-        return view('article.show', compact('article'));
+        $playlists = Playlist::findOrFail($id);
+//        dd($playlists->music);
+        return view('playlist.show', compact('playlists'));
     }
 
     public function create()
     {
-        if (\Auth::check() && \Auth::user()->isAdmin == 1) {
-            return view('article.create');
+        if (\Auth::check()) {
+            return view('playlist.create');
         } else {
-            return redirect(route('article.index'));
+            return redirect(route('playlist.index'));
         }
     }
 
     public function store(Request $request)
     {
-        if (\Auth::check() && \Auth::user()->isAdmin == 1) {
-            $image_path = '';
-            if ($request->hasfile('img_url')) {
-                $file = $request->file('img_url');
-                $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
-                $image_path = $file->move('uploads/images/', $filename);
-            }
+        if (\Auth::check()) {
 
             Playlist::create([
-                'title' => $request->title,
-                'img_url' => !empty($image_path) ? $image_path : null,
+                'name' => $request->name,
                 'user_id' => \Auth::user()->id,
-                'description' => $request->description,
-                'full_text' => $request->full_text,
             ]);
-            return redirect(route('article.index'));
+            return redirect(route('playlist.index'));
         } else {
-            return redirect(route('article.index'));
+            return redirect(route('playlist.index'));
         }
     }
 
     public function edit($id)
     {
-        if (\Auth::check() && \Auth::user()->isAdmin == 1) {
-            $article = Playlist::findOrFail($id);
-            return view('article.edit', compact('article'));
+        if (\Auth::check()) {
+            $playlist = Playlist::findOrFail($id);
+            return view('playlist.edit', compact('playlist'));
         } else {
-            return redirect(route('article.index'));
+            return redirect(route('playlist.index'));
         }
     }
 
     public function update(Request $request, $id)
     {
-        if (\Auth::check() && \Auth::user()->isAdmin == 1) {
+        if (\Auth::check()) {
             $image_path = '';
             $article = Playlist::findOrFail($id);
             if ($request->hasfile('img_url')) {
@@ -85,15 +76,15 @@ class PlaylistController extends Controller
                 'description' => $request->description,
                 'full_text' => $request->full_text,
             ]);
-            return redirect(route('article.index'));
+            return redirect(route('playlist.index'));
         } else {
-            return redirect(route('article.index'));
+            return redirect(route('playlist.index'));
         }
     }
 
     public function destroy($id)
     {
-        if (\Auth::check() && \Auth::user()->isAdmin == 1) {
+        if (\Auth::check()) {
             $article = Playlist::findOrFail($id);
             $article->destroy($id);
             if (!empty($article->img_url)) {
@@ -101,9 +92,9 @@ class PlaylistController extends Controller
                 $filename = public_path() . '/' . $file;
                 \File::delete($filename);
             }
-            return redirect(route('article.index'));
+            return redirect(route('playlist.index'));
         } else {
-            return redirect(route('article.index'));
+            return redirect(route('playlist.index'));
         }
     }
 }

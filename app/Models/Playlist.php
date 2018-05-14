@@ -32,14 +32,14 @@ class Playlist extends Model
     ];
 
 
-
-
     public function user()
     {
         return $this->belongsTo(\App\User::class, 'user_id');
     }
+
     public function music()
     {
-        return $this->belongsTo(Music::class, 'music_id');
+        return $this->belongsToMany(Music::class, 'playlist_music', 'playlist_id', 'music_id');
     }
+
 }

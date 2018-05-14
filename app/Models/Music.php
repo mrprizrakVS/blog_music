@@ -47,6 +47,6 @@ class Music extends Model
 
     public function playlist()
     {
-        return $this->hasMany(Playlist::class);
+        return $this->belongsToMany(Playlist::class, 'playlist_music','music_id','playlist_id');
     }
 }
