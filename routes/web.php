@@ -52,4 +52,6 @@ Route::group(['prefix'=>'playlist'], function (){
    Route::get('/edit/{id}', 'PlaylistController@edit')->name('playlist.edit');
    Route::put('/edit/{id}', 'PlaylistController@update')->name('playlist.update');
    Route::get('/delete/{id}', 'PlaylistController@destroy')->name('playlist.delete');
+   Route::get('/load-audio/{id}/{page}', 'PlaylistController@loadAudio')->name('playlist.load.audio');
+   Route::get('/playlist-add/{id}/{page}', 'PlaylistController@addPlaylist')->name('playlist.add');
 });

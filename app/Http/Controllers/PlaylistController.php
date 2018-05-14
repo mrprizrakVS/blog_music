@@ -9,15 +9,15 @@ class PlaylistController extends Controller
 {
     public function index()
     {
-        $playlists = Playlist::all();
+        $playlists = Playlist::all()->where('user_id', \Auth::user()->id);
         return view('playlist.index', compact('playlists'));
     }
 
     public function show($id)
     {
         $playlists = Playlist::findOrFail($id);
-//        dd($playlists->music);
-        return view('playlist.show', compact('playlists'));
+        $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
+        return view('playlist.show', compact('playlists', 'playlist_user'));
     }
 
     public function create()
@@ -56,27 +56,11 @@ class PlaylistController extends Controller
     public function update(Request $request, $id)
     {
         if (\Auth::check()) {
-            $image_path = '';
-            $article = Playlist::findOrFail($id);
-            if ($request->hasfile('img_url')) {
-                if (!empty($article->img_url)) {
-                    $file = $article->img_url;
-                    $filename = public_path() . '/' . $file;
-                    \File::delete($filename);
-                }
-                $file = $request->file('img_url');
-                $extension = $file->getClientOriginalExtension();
-                $filename = time() . '.' . $extension;
-                $image_path = $file->move('uploads/images/', $filename);
-            }
             Playlist::findOrFail($id)->update([
-                'title' => $request->title,
-                'img_url' => !empty($image_path) ? $image_path : $article->img_url,
-                'user_id' => \Auth::user()->id,
-                'description' => $request->description,
-                'full_text' => $request->full_text,
+                'name' => $request->name,
+
             ]);
-            return redirect(route('playlist.index'));
+            return redirect(route('playlist.show', $id));
         } else {
             return redirect(route('playlist.index'));
         }
@@ -87,14 +71,24 @@ class PlaylistController extends Controller
         if (\Auth::check()) {
             $article = Playlist::findOrFail($id);
             $article->destroy($id);
-            if (!empty($article->img_url)) {
-                $file = $article->img_url;
-                $filename = public_path() . '/' . $file;
-                \File::delete($filename);
-            }
             return redirect(route('playlist.index'));
         } else {
             return redirect(route('playlist.index'));
         }
+    }
+
+    public function loadAudio($id, $page = 1)
+    {
+        $audios = Playlist::findOrFail($id)->music()->forPage($page, 15)->get();
+        foreach ($audios as $audio) {
+            echo ' <li><p><span id="' . asset($audio->audio_url) . '">' . $audio->name . '</span>
+                                <a href="/people/helper/add_audio.php?komy=1&id_audio=9&act=minus"><i class="glyphicon glyphicon-minus" ></i></a>
+                            </p></li>';
+        }
+    }
+
+    public function addPlaylist($music_id, $playlist)
+    {
+
     }
 }

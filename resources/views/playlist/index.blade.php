@@ -8,6 +8,8 @@
             </a>
             <br/>
         @endif
+
+            <br/>
         @foreach($playlists as $playlist)
             <div class="list-group">
                 <div class="list-group-item">
