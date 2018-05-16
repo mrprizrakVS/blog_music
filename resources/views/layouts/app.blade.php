@@ -56,12 +56,15 @@
     <div class="container">
         <div class="row">
             <div class="logo col-lg-9 col-md-8 col-sm-7 col-xs-12">
-                <a href="/"><img src="img/logo.png" alt=""></a>
+                <a href="/"><img src="{!! asset('img/logo.png') !!}" alt=""></a>
 
             </div>
             <div class="search_block col-lg-3 col-md-4 col-sm-5 col-xs-12">
-                <form class="search"><input type="text" name="" placeholder="Искать..."> <i
-                            class="search_button fa fa-search" aria-hidden="true"></i>
+                <form class="search" action="{{route('music.search')}}" method="POST">
+                    {!! csrf_field() !!}
+                    <input type="text" name="search" placeholder="Шукати..." value="{{old('search')}}"> <i class="search_button fa fa-search"
+                                                                                 aria-hidden="true"></i>
+                    <button class="btn btn-primary" type="submit">Шукати</button>
                 </form>
             </div>
         </div>

@@ -14,7 +14,8 @@
                     <div class="anons">
                         <div class="row">
 
-                            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 center">    <a href="{{route('article.show', $article->id)}}"> {!! !empty($article->img_url) ? '<img src="'. asset($article->img_url) .'" alt="'.$article->title.'" style="width:250px; height: 250px; ">' : null !!}</a></div>
+                            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12 center">
+                                <a href="{{route('article.show', $article->id)}}"> {!! !empty($article->img_url) ? '<img src="'. asset($article->img_url) .'" alt="'.$article->title.'" style="width:250px; height: 250px; ">' : null !!}</a></div>
 
                             <div class=" col-lg-9 col-md-8 col-sm-12 col-xs-12"><a href="{{route('article.show', $article->id)}}"><h3>{{$article->title}}</h3></a><p>{{$article->description}}</p>
                             </div>

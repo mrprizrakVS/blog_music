@@ -83,11 +83,10 @@ class PlaylistController extends Controller
     public function loadAudio($id, $page = 1)
     {
         $audios = Playlist::findOrFail($id)->music()->forPage($page, 15)->get();
-        foreach ($audios as $audio) {
-            echo ' <li><p><span id="' . asset($audio->audio_url) . '">' . $audio->name . '</span>
-                                <a href="/people/helper/add_audio.php?komy=1&id_audio=9&act=minus"><i class="glyphicon glyphicon-minus" ></i></a>
-                            </p></li>';
-        }
+        $playlists = Playlist::findOrFail($id);
+        $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
+
+        return view('playlist.include.new_audio', compact('audios', 'playlist_user', 'playlists'));
     }
 
     public function addPlaylist(Request $request)

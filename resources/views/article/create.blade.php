@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="text-center">
+    <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12 text-center">
         <form action="{{route('article.store')}}" method="POST" enctype="multipart/form-data">
             {!! csrf_field() !!}
             <input name="title" class="form-control" value="{{old('title')}}" placeholder="Title"><br/>

@@ -118,6 +118,15 @@ class MusicController extends Controller
         $audios = Music::forPage($request->page, 15)->get();
         $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
 
-        return view('music.include.new_audio', compact('audios', 'playlist_user'));
+        return view('music.include.new_audio', compact('audios', 'playlist_user', 'playlists'));
+    }
+
+    public function search(Request $request)
+    {
+        $musics = Music::where('name','LIKE', '%'.$request->search.'%')->get();
+        $genres = Genre::all();
+        $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
+        return view('music.search', compact('musics', 'genres', 'playlist_user'));
+
     }
 }

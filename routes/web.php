@@ -44,6 +44,7 @@ Route::group(['prefix'=>'music'], function (){
    Route::put('/edit/{id}', 'MusicController@update')->name('music.update');
    Route::get('/delete/{id}', 'MusicController@destroy')->name('music.delete');
    Route::get('/load-audio', 'MusicController@loadAudio')->name('music.load.audio');
+   Route::post('/search', 'MusicController@search')->name('music.search');
 
 });
 Route::group(['prefix'=>'playlist'], function (){

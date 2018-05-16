@@ -83,10 +83,12 @@
             function load_audio(page) {
                 var _page = page;
                 $.ajax({
-                    url: "{{route('music.load.audio')}}",
-                    data: {'page': _page},
+                    url: "/playlist/load-audio/{{$playlists->id}}/"+_page,
                     success: function (html) {
                         $("#playlist").append(html);
+                    },
+                    error: function (jqXHR, ajaxOptions, thrownError) {
+                        console.log('error');
                     }
                 });
             }
@@ -120,6 +122,7 @@
                         }
                     }
                     audio.src = all_span[k].id;
+                    $('#name').html(all_span[k].innerHTML);
                     audio.play();
                     k = 0;
                 }, true);
@@ -127,7 +130,7 @@
 
             });
             var inProgress = false;
-            var pagee = 1;
+            var pagee = 2;
             var countaudio = "{{$playlists->music()->count()}}";
 //            load_audio(pagee);
             if (countaudio >= 10) {

@@ -99,11 +99,8 @@
                         if (track == all_span[i].id) {
                             k = i + 1;
                         }
-                        console.log(all_span[i].id, track);
                     }
                     audio.src = all_span[k].id;
-                    $('#name').html(all_span[k].innerHTML);
-//                    console.log(all_span[k].id);
                     audio.play();
                     k = 0;
                 }, true);
@@ -111,7 +108,7 @@
 
             });
             var inProgress = false;
-            var pagee = 2;
+            var pagee = 1;
             var countaudio = "{{$musics->count()}}";
 //            load_audio(pagee);
             if (countaudio >= 10) {

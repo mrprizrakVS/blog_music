@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="text-center">
+    <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12 text-center">
         <form action="{{route('article.update', $article->id)}}" method="POST" enctype="multipart/form-data">
             {!! csrf_field() !!}
             {!! method_field('PUT') !!}
