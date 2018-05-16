@@ -87,8 +87,15 @@ class PlaylistController extends Controller
         }
     }
 
-    public function addPlaylist($music_id, $playlist)
+    public function addPlaylist(Request $request)
     {
+        $playlist_id = $request->playlist_id;
+        $music_id = $request->music_id;
 
+        $playlist = Playlist::findOrFail($playlist_id);
+
+        $playlist->music()->toggle($music_id);
+
+        return 'ok';
     }
 }

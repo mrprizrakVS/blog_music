@@ -5,13 +5,16 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MusicRequest;
 use App\Models\Genre;
 use App\Models\Music;
+use App\Models\Playlist;
+use Illuminate\Http\Request;
 
 class MusicController extends Controller
 {
     public function index()
     {
-        $musics = Music::all();
-        return view('music.index', compact('musics'));
+        $musics = Music::paginate(10);
+        $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
+        return view('music.index', compact('musics', 'playlist_user'));
     }
 
     public function show($id)
@@ -107,5 +110,13 @@ class MusicController extends Controller
         } else {
             return redirect(route('music.index'));
         }
+    }
+
+    public function loadAudio(Request $request)
+    {
+        $audios = Music::forPage($request->page, 15)->get();
+        $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
+
+        return view('music.include.new_audio', compact('audios', 'playlist_user'));
     }
 }

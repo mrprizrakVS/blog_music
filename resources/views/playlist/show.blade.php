@@ -8,6 +8,53 @@
             text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3);
         }
     </style>
+
+    <div class="text-center">
+        @if(\Auth::check())
+            <a href="{{route('playlist.edit', $playlists->id)}}">
+                <button class="btn btn-primary">Edit</button>
+            </a>
+            <a href="{{route('playlist.delete', $playlists->id)}}">
+                <button class="btn btn-danger">Delete</button>
+            </a>
+        @endif
+        <br/>
+        <h2>{{$playlists->name}}</h2>
+        <small>author: {{$playlists->user->name}}</small>
+        <br/>
+        <br/>
+        <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
+        <audio id="audio" src="" controls
+               style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
+        <div class="jp-playlist" style="font-size: 14px;">
+            <ul>
+                <div id="playlist">
+                    @foreach($playlists->music()->paginate(10) as $playlist)
+                        <li>
+                            <p><span id="{{asset($playlist->audio_url)}}">{{$playlist->name}}</span>
+                                @if(\Auth::user()->id != $playlists->user_id)
+                                    <select name="playlist_id" id="playlist_id" data-music="{{$playlist->id}}">
+                                        <option value="" selected
+                                        ></option>
+                                        @foreach($playlist_user as $item)
+                                            <option value="{{$item->id}}"
+                                            >{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <a href="#" id="delete_music" data-music="{{$playlist->id}}"
+                                       data-playlist="{{$playlists->id}}" style="display: inline;">Видалити пісню</a>
+                                @endif
+                            </p>
+                        </li>
+
+                    @endforeach
+                </div>
+            </ul>
+        </div>
+
+        <small>Date: {{$playlists->created_at->format('d-m-Y')}}</small>
+    </div>
     <script>
         $(document).ready(function () {
             function load_audio(page) {
@@ -17,7 +64,6 @@
                     success: function (html) {
                         $("#playlist").append(html);
                     }
-
                 });
             }
 
@@ -71,50 +117,52 @@
                 });
             }
 
-
-
+            $(document).on('change', '#playlist_id', function (event) {
+                event.preventDefault();
+                var playlist_id = $(this).val();
+                var music_id = $(this).data("music");
+                $.ajax({
+                    url: "{{route('playlist.add')}}",
+                    data: {
+                        'playlist_id': playlist_id,
+                        'music_id': music_id
+                    },
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': "{!! csrf_token()!!}"
+                    },
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (jqXHR, ajaxOptions, thrownError) {
+                        alert('Не додано в плейлист!');
+                    }
+                });
+            });
+            $(document).on('click', '#delete_music', function (event) {
+                event.preventDefault();
+                var playlist_id = $(this).data("playlist");
+                var music_id = $(this).data("music");
+                $.ajax({
+                    url: "{{route('playlist.add')}}",
+                    data: {
+                        'playlist_id': playlist_id,
+                        'music_id': music_id
+                    },
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': "{!! csrf_token()!!}"
+                    },
+                    success: function (data) {
+                        $(this).css("display", "none");
+                        alert('Bидалено!');
+                        location.reload();
+                    },
+                    error: function (jqXHR, ajaxOptions, thrownError) {
+                        alert('Не видалено!');
+                    }
+                });
+            });
         });
     </script>
-    <div class="text-center">
-        @if(\Auth::check())
-            <a href="{{route('playlist.edit', $playlists->id)}}">
-                <button class="btn btn-primary">Edit</button>
-            </a>
-            <a href="{{route('playlist.delete', $playlists->id)}}">
-                <button class="btn btn-danger">Delete</button>
-            </a>
-        @endif
-        <br/>
-        <h2>{{$playlists->name}}</h2>
-        <small>author: {{$playlists->user->name}}</small>
-        <br/>
-        <br/>
-        <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
-        <audio id="audio" src="" controls
-               style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
-        <div class="jp-playlist" style="font-size: 14px;">
-            <ul>
-                <div id="playlist">
-                    @foreach($playlists->music()->paginate(10) as $playlist)
-                        <li><p><span id="{{asset($playlist->audio_url)}}">{{$playlist->name}}</span>
-                            <form method="get" action="/channels/show/8">
-                                <select name="cat_id" onChange="window.location='/channels/show/{{$playlist->id}}/status/'+this.value;">
-                                    @foreach($playlist_user as $item)
-                                        <option value="{{$item->id}}" selected
-                                                ></option>
-                                        <option value="{{$item->id}}"
-                                                >{{$item->name}}</option>
-                                    @endforeach
-                                </select>
-                            </form>
-                            </p>
-                        </li>
-
-                    @endforeach
-                </div>
-            </ul>
-        </div>
-
-        <small>Date: {{$playlists->created_at->format('d-m-Y')}}</small>
-    </div>
 @endsection
