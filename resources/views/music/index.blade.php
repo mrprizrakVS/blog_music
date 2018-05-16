@@ -2,38 +2,61 @@
 
 @section('content')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <div class="text-center">
-        @if(\Auth::check() && \Auth::user()->isAdmin == 1 )
-            <a href="{{route('music.create')}}">
-                <button class="btn btn-primary">Create</button>
-            </a>
-            <br/>
-        @endif
-        <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
-        <audio id="audio" src="" controls
-               style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
-        <div class="jp-playlist" style="font-size: 14px;">
-            <ul>
-                <div id="playlist">
-                    @foreach($musics as $music)
-                        <li>
-                            <p><span id="{{asset($music->audio_url)}}">{{$music->name}}</span>
-                                <select name="playlist_id" id="playlist_id" data-music="{{$music->id}}">
-                                    <option value="" selected
-                                    ></option>
-                                    @foreach($playlist_user as $item)
-                                        <option value="{{$item->id}}"
-                                        >{{$item->name}}</option>
-                                    @endforeach
-                                </select>
-                            </p>
+    <div class="container">
+        <div class="row">
+            <div class=" col-lg-2 col-md-3 col-sm-5 col-xs-12">
+                <div class="content">
+
+                    <ul class="nav nav-pills nav-stacked" >
+                        <h3 class="center mush3">Жанри</h3>
+                        @foreach($genres as $genre)
+                        <li role="presentation" >
+                            <a href="{{route('genre.show', $genre->id)}}" >
+                                {{$genre->name}}
+                            </a>
                         </li>
-
-
-                    @endforeach
+                            @endforeach
+                    </ul>
 
                 </div>
-            </ul>
+            </div>
+
+            <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12 text-center">
+
+                @if(\Auth::check() && \Auth::user()->isAdmin == 1 )
+                    <a href="{{route('music.create')}}">
+                        <button class="btn btn-primary">Create</button>
+                    </a>
+                    <br/>
+                @endif
+                <br/>
+                <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
+                <audio id="audio" src="" controls  {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}
+                       style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
+                <div class="jp-playlist" style="font-size: 14px;">
+                    <ul>
+                        <div id="playlist">
+                            @foreach($musics as $music)
+                                <li>
+                                    <p><span id="{{asset($music->audio_url)}}">{{$music->name}}</span>
+                                        <select name="playlist_id" id="playlist_id" data-music="{{$music->id}}">
+                                            <option value="" selected
+                                            ></option>
+                                            @foreach($playlist_user as $item)
+                                                <option value="{{$item->id}}"
+                                                >{{$item->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </p>
+                                </li>
+
+
+                            @endforeach
+
+                        </div>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     <script>

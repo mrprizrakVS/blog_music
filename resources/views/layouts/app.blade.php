@@ -11,67 +11,100 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/common.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/main.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+<div class="top_line">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-md-9 col-sm-9 col-xs-8">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a></li>
-                            <li><a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a></li>
-                        @else
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{route('article.index')}}">Article</a><br/>
-                                    <a class="dropdown-item" href="{{route('music.index')}}">Music</a><br/>
-                                    <a class="dropdown-item" href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
-
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </div>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
             </div>
-        </nav>
+            @guest
+                <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
+                    <div class="login">
+                        <span><a href="{{ route('login') }}">{{ __('Login') }}</a></span>
+                        <span><a href="{{ route('register') }}">{{ __('Register') }}</a></span>
+                    </div>
+                </div>
+                @else
+                    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
+                        <div class="login">
+                            <span><a href="{{ route('logout') }}"
+                                     onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a></span>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </div>
+                        @endguest
+                    </div>
+        </div>
     </div>
+</div>
+<div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="logo col-lg-9 col-md-8 col-sm-7 col-xs-12">
+                <a href="/"><img src="img/logo.png" alt=""></a>
+
+            </div>
+            <div class="search_block col-lg-3 col-md-4 col-sm-5 col-xs-12">
+                <form class="search"><input type="text" name="" placeholder="Искать..."> <i
+                            class="search_button fa fa-search" aria-hidden="true"></i>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main_menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <ul>
+
+                    <li><a href="{{route('article.index')}}">Новини</a></li>
+                    <li><a href="{{route('music.index')}}">Музика</a></li>
+                    <li><a href="{{route('playlist.index')}}">Плейлисти</a></li>
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="content">
+
+                @yield('content')
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <span class="center">КН-14-2 Нечай О.В.</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>

@@ -14,7 +14,8 @@ class MusicController extends Controller
     {
         $musics = Music::paginate(10);
         $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
-        return view('music.index', compact('musics', 'playlist_user'));
+        $genres = Genre::all();
+        return view('music.index', compact('musics', 'playlist_user', 'genres'));
     }
 
     public function show($id)

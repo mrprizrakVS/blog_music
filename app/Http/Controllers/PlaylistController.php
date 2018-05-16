@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Genre;
 use App\Models\Playlist;
 use Illuminate\Http\Request;
 
@@ -10,14 +11,16 @@ class PlaylistController extends Controller
     public function index()
     {
         $playlists = Playlist::all()->where('user_id', \Auth::user()->id);
-        return view('playlist.index', compact('playlists'));
+        $genres = Genre::all();
+        return view('playlist.index', compact('playlists', 'genres'));
     }
 
     public function show($id)
     {
         $playlists = Playlist::findOrFail($id);
+        $genres = Genre::all();
         $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
-        return view('playlist.show', compact('playlists', 'playlist_user'));
+        return view('playlist.show', compact('playlists', 'playlist_user', 'genres'));
     }
 
     public function create()

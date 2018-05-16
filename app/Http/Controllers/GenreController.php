@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GenreRequest;
 use App\Models\Genre;
+use App\Models\Playlist;
 
 class GenreController extends Controller
 {
@@ -15,8 +16,10 @@ class GenreController extends Controller
 
     public function show($id)
     {
+        $genres = Genre::all();
         $genre = Genre::findOrFail($id);
-        return view('genre.show', compact('genre'));
+        $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
+        return view('genre.show', compact('genre', 'genres', 'playlist_user'));
     }
 
     public function create()
