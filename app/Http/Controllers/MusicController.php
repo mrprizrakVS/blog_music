@@ -13,9 +13,13 @@ class MusicController extends Controller
     public function index()
     {
         $musics = Music::paginate(10);
-        $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
         $genres = Genre::all();
-        return view('music.index', compact('musics', 'playlist_user', 'genres'));
+        if(\Auth::check()) {
+            $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
+            return view('music.index', compact('musics', 'playlist_user', 'genres'));
+        }else {
+            return view('music.index', compact('musics', 'genres'));
+        }
     }
 
     public function show($id)
@@ -125,8 +129,12 @@ class MusicController extends Controller
     {
         $musics = Music::where('name','LIKE', '%'.$request->search.'%')->get();
         $genres = Genre::all();
-        $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
-        return view('music.search', compact('musics', 'genres', 'playlist_user'));
+        if(\Auth::check()) {
+            $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
+            return view('music.search', compact('musics', 'genres', 'playlist_user'));
+        }else{
+            return view('music.search', compact('musics', 'genres'));
+        }
 
     }
 }

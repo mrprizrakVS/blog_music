@@ -18,8 +18,13 @@ class GenreController extends Controller
     {
         $genres = Genre::all();
         $genre = Genre::findOrFail($id);
-        $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
-        return view('genre.show', compact('genre', 'genres', 'playlist_user'));
+        if(\Auth::check()) {
+            $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
+            return view('genre.show', compact('genre', 'genres', 'playlist_user'));
+        }
+        else{
+            return view('genre.show', compact('genre', 'genres'));
+        }
     }
 
     public function create()
@@ -27,7 +32,7 @@ class GenreController extends Controller
         if (\Auth::check() && \Auth::user()->isAdmin == 1) {
             return view('genre.create');
         } else {
-            return redirect(route('music.index'));
+            return redirect(route('genre.index'));
         }
     }
 
@@ -37,7 +42,7 @@ class GenreController extends Controller
             Genre::create($request->all());
             return redirect(route('genre.index'));
         } else {
-            return redirect(route('music.index'));
+            return redirect(route('genre.index'));
         }
     }
 
@@ -47,7 +52,7 @@ class GenreController extends Controller
             $genre = Genre::findOrFail($id);
             return view('genre.edit', compact('genre'));
         } else {
-            return redirect(route('music.index'));
+            return redirect(route('genre.index'));
         }
     }
 
@@ -57,7 +62,7 @@ class GenreController extends Controller
             Genre::findOrFail($id)->update($request->all());
             return redirect(route('genre.index', $id));
         } else {
-            return redirect(route('music.index'));
+            return redirect(route('genre.index'));
         }
     }
 
@@ -66,7 +71,7 @@ class GenreController extends Controller
         if (\Auth::check() && \Auth::user()->isAdmin == 1) {
             Genre::destroy($id);
         } else {
-            return redirect(route('music.index'));
+            return redirect(route('genre.index'));
         }
     }
 }

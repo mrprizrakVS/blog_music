@@ -8,11 +8,11 @@
             <div class=" col-lg-2 col-md-3 col-sm-5 col-xs-12">
                 <div class="content">
 
-                    <ul class="nav nav-pills nav-stacked" >
+                    <ul class="nav nav-pills nav-stacked">
                         <h3 class="center mush3">Жанри</h3>
                         @foreach($genres as $genree)
-                            <li role="presentation" >
-                                <a href="{{route('genre.show', $genree->id)}}" >
+                            <li role="presentation">
+                                <a href="{{route('genre.show', $genree->id)}}">
                                     {{$genree->name}}
                                 </a>
                             </li>
@@ -36,8 +36,8 @@
                 <h1>{{$genre->name}}</h1>
                 <hr>
                 <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
-                <audio id="audio" src="" controls  {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}
-                       style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
+                <audio id="audio" src="" controls {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}
+                style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
                 <div class="jp-playlist" style="font-size: 14px;">
                     <ul>
                         <div id="playlist">
@@ -47,10 +47,12 @@
                                         <select name="playlist_id" id="playlist_id" data-music="{{$music->id}}">
                                             <option value="" selected
                                             ></option>
-                                            @foreach($playlist_user as $item)
-                                                <option value="{{$item->id}}"
-                                                >{{$item->name}}</option>
-                                            @endforeach
+                                            @guest
+                                                @foreach($playlist_user as $item)
+                                                    <option value="{{$item->id}}"
+                                                    >{{$item->name}}</option>
+                                                @endforeach
+                                            @endguest
                                         </select>
                                     </p>
                                 </li>

@@ -95,9 +95,13 @@ class PlaylistController extends Controller
         $music_id = $request->music_id;
 
         $playlist = Playlist::findOrFail($playlist_id);
-
+ //TODO: add or delete playlist
+//        if ($playlist->music()->attach($music_id) == null) {
+//            $playlist->music()->detach($music_id);
+//        } else {
+//            $playlist->music()->attach($music_id);
+//        }
         $playlist->music()->toggle($music_id);
-
         return 'ok';
     }
 }

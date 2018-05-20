@@ -79,6 +79,7 @@
                     <li><a href="{{route('article.index')}}">Новини</a></li>
                     <li><a href="{{route('music.index')}}">Музика</a></li>
                     <li><a href="{{route('playlist.index')}}">Плейлисти</a></li>
+                    <li><a href="{{route('genre.index')}}">Жанри</a></li>
                 </ul>
             </div>
 

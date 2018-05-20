@@ -9,7 +9,7 @@
                 @foreach($genres as $genre)
                     <option value="{{$genre->id}}">{{$genre->name}}</option>
                 @endforeach
-            </select>
+            </select><br/>
             <input name="audio_url" type="file" class="form-control" placeholder="Audio"><br/>
             <button class="btn btn-success">Create</button>
         </form>

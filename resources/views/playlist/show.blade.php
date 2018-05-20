@@ -15,11 +15,11 @@
             <div class=" col-lg-2 col-md-3 col-sm-5 col-xs-12">
                 <div class="content">
 
-                    <ul class="nav nav-pills nav-stacked" >
+                    <ul class="nav nav-pills nav-stacked">
                         <h3 class="center mush3">Жанри</h3>
                         @foreach($genres as $genre)
-                            <li role="presentation" >
-                                <a href="{{route('genre.show', $genre->id)}}" >
+                            <li role="presentation">
+                                <a href="{{route('genre.show', $genre->id)}}">
                                     {{$genre->name}}
                                 </a>
                             </li>
@@ -42,11 +42,11 @@
                 <br/>
                 <h2>{{$playlists->name}}</h2>
                 <small>author: {{$playlists->user->name}}</small>
-                    <small>Date: {{$playlists->created_at->format('d-m-Y')}}</small>
+                <small>Date: {{$playlists->created_at->format('d-m-Y')}}</small>
                 <br/>
                 <br/>
                 <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
-                <audio id="audio" src="" controls  {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}
+                <audio id="audio" src="" controls {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}
                 style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
                 <div class="jp-playlist" style="font-size: 14px;">
                     <ul>
@@ -54,17 +54,21 @@
                             @foreach($playlists->music()->paginate(10) as $playlist)
                                 <li>
                                     <p><span id="{{asset($playlist->audio_url)}}">{{$playlist->name}}</span>
-                                        @if(\Auth::user()->id != $playlists->user_id)
-                                        <select name="playlist_id" id="playlist_id" data-music="{{$playlist->id}}">
-                                            <option value="" selected
-                                            ></option>
-                                            @foreach($playlist_user as $item)
-                                                <option value="{{$item->id}}"
-                                                >{{$item->name}}</option>
-                                            @endforeach
-                                        </select>
-                                            @else
-                                            <a href="#" id="delete_music" data-playlist="{{$playlists->id}}" data-music="{{$playlist->id}}" style="display: inline;">Видалити</a>
+                                        @if(!auth()->guard()->guest())
+                                            @if(\Auth::user()->id != $playlists->user_id)
+                                                <select name="playlist_id" id="playlist_id"
+                                                        data-music="{{$playlist->id}}">
+                                                    <option value="" selected
+                                                    ></option>
+                                                    @foreach($playlist_user as $item)
+                                                        <option value="{{$item->id}}"
+                                                        >{{$item->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            @endif
+                                        @else
+                                            <a href="#" id="delete_music" data-playlist="{{$playlists->id}}"
+                                               data-music="{{$playlist->id}}" style="display: inline;">Видалити</a>
                                         @endif
                                     </p>
                                 </li>
@@ -83,7 +87,7 @@
             function load_audio(page) {
                 var _page = page;
                 $.ajax({
-                    url: "/playlist/load-audio/{{$playlists->id}}/"+_page,
+                    url: "/playlist/load-audio/{{$playlists->id}}/" + _page,
                     success: function (html) {
                         $("#playlist").append(html);
                     },
