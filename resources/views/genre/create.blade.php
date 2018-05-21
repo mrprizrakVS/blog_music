@@ -5,7 +5,7 @@
         <form action="{{route('genre.store')}}" method="POST" >
             {!! csrf_field() !!}
             <input name="name" class="form-control" value="{{old('name')}}" placeholder="Name"><br/>
-            <button class="btn btn-success">Create</button>
+            <button class="btn btn-success">Створити</button>
         </form>
     </div>
 @endsection

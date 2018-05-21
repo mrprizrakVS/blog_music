@@ -62,8 +62,9 @@
             <div class="search_block col-lg-3 col-md-4 col-sm-5 col-xs-12">
                 <form class="search" action="{{route('music.search')}}" method="POST">
                     {!! csrf_field() !!}
-                    <input type="text" name="search" placeholder="Шукати..." value="{{old('search')}}"> <i class="search_button fa fa-search"
-                                                                                 aria-hidden="true"></i>
+                    <input type="text" name="search" placeholder="Шукати..." value="{{old('search')}}"> <i
+                            class="search_button fa fa-search"
+                            aria-hidden="true"></i>
                     <button class="btn btn-primary" type="submit">Шукати</button>
                 </form>
             </div>
@@ -79,7 +80,9 @@
                     <li><a href="{{route('article.index')}}">Новини</a></li>
                     <li><a href="{{route('music.index')}}">Музика</a></li>
                     <li><a href="{{route('playlist.index')}}">Плейлисти</a></li>
-                    <li><a href="{{route('genre.index')}}">Жанри</a></li>
+                    @if(\Auth::check() && \Auth::user()->isAdmin == 1)
+                        <li><a href="{{route('genre.index')}}">Жанри</a></li>
+                    @endif
                 </ul>
             </div>
 

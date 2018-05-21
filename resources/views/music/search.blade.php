@@ -23,12 +23,6 @@
 
             <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12 text-center">
 
-                @if(\Auth::check() && \Auth::user()->isAdmin == 1 )
-                    <a href="{{route('music.create')}}">
-                        <button class="btn btn-primary">Create</button>
-                    </a>
-                    <br/>
-                @endif
                 <br/>
                 <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
                 <audio id="audio" src="" controls {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Genre;
 use App\Models\Playlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PlaylistController extends Controller
 {
@@ -35,7 +36,15 @@ class PlaylistController extends Controller
     public function store(Request $request)
     {
         if (\Auth::check()) {
-
+            $rules = [
+                'name' => 'required|min:3|max:191',
+            ];
+            $validation = Validator::make($request->all(), $rules);
+            if ($validation->fails()) {
+                return redirect(route('playlist.create'))
+                    ->with('message', 'Помилка доданя плейлисту, заповніть всі поля')
+                    ->with('status', 'danger');
+            }
             Playlist::create([
                 'name' => $request->name,
                 'user_id' => \Auth::user()->id,

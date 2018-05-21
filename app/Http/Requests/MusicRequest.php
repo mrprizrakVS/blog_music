@@ -26,7 +26,6 @@ class MusicRequest extends FormRequest
         return [
             'name' => 'required|min:3|max:191',
             'audio_url' => 'mimetypes:audio/mpeg',
-
             'genre_id' => 'required',
         ];
     }

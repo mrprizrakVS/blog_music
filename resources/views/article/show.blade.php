@@ -4,10 +4,10 @@
         @if(\Auth::check() && \Auth::user()->isAdmin == 1 )
             <div class="text-center">
             <a href="{{route('article.edit', $article->id)}}">
-                <button class="btn btn-primary">Edit</button>
+                <button class="btn btn-primary">Редагувати</button>
             </a>
             <a href="{{route('article.delete', $article->id)}}">
-                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-danger">Видалити</button>
             </a>
             </div>
         @endif

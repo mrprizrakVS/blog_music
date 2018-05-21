@@ -12,7 +12,7 @@
                 @endforeach
             </select>
             <input name="audio_url" type="file" class="form-control"  placeholder="Image"><br/>
-            <button class="btn btn-success">Update</button>
+            <button class="btn btn-success">Редагувати</button>
         </form>
     </div>
 @endsection

@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ArticleController extends Controller
 {
 
     public function index()
     {
-        $articles = Article::all();
+        $articles = Article::orderBy('created_at', 'desc')->paginate(10);
         return view('article.index', compact('articles'));
     }
 
@@ -29,7 +31,7 @@ class ArticleController extends Controller
         }
     }
 
-    public function store(ArticleRequest $request)
+    public function store(Request $request)
     {
         if (\Auth::check() && \Auth::user()->isAdmin == 1) {
             $image_path = '';
@@ -39,7 +41,18 @@ class ArticleController extends Controller
                 $filename = time() . '.' . $extension;
                 $image_path = $file->move('uploads/images/', $filename);
             }
-
+            $rules = [
+                'title' => 'required|min:3|max:191',
+                'img_url' => 'min:0|image|mimes:jpeg,png,jpg,gif,svg',
+                'description' => 'required|min:3|max:191',
+                'full_text' => 'required|min:3',
+            ];
+            $validation = Validator::make($request->all(), $rules);
+            if ($validation->fails()) {
+                return redirect(route('article.create'))
+                    ->with('message', 'Помилка доданя новини, заповніть всі поля')
+                    ->with('status', 'danger');
+            }
             Article::create([
                 'title' => $request->title,
                 'img_url' => !empty($image_path) ? $image_path : null,

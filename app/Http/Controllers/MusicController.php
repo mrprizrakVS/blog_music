@@ -7,17 +7,19 @@ use App\Models\Genre;
 use App\Models\Music;
 use App\Models\Playlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class MusicController extends Controller
 {
     public function index()
     {
-        $musics = Music::paginate(10);
+        $musics = Music::orderBy('created_at', 'desc')->paginate(10);
         $genres = Genre::all();
-        if(\Auth::check()) {
+        if (\Auth::check()) {
             $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
             return view('music.index', compact('musics', 'playlist_user', 'genres'));
-        }else {
+        } else {
             return view('music.index', compact('musics', 'genres'));
         }
     }
@@ -38,10 +40,21 @@ class MusicController extends Controller
         }
     }
 
-    public function store(MusicRequest $request)
+    public function store(Request $request)
     {
         if (\Auth::check() && \Auth::user()->isAdmin == 1) {
             $audio_path = '';
+            $rules = [
+                'name' => 'required|min:3|max:191',
+                'audio_url' => 'required|mimetypes:audio/mpeg',
+                'genre_id' => 'required',
+            ];
+            $validation = Validator::make($request->all(), $rules);
+            if ($validation->fails()) {
+                return redirect(route('music.create'))
+                    ->with('message', 'Помилка доданя пісні, заповніть всі поля')
+                    ->with('status', 'danger');
+            }
 //            dd($request->file('audio_url'));
             if ($request->hasfile('audio_url')) {
                 $file = $request->file('audio_url');
@@ -56,7 +69,9 @@ class MusicController extends Controller
                 'user_id' => \Auth::user()->id,
                 'genre_id' => $request->genre_id,
             ]);
+
             return redirect(route('music.index'));
+
         } else {
             return redirect(route('music.index'));
         }
@@ -119,7 +134,7 @@ class MusicController extends Controller
 
     public function loadAudio(Request $request)
     {
-        $audios = Music::forPage($request->page, 15)->get();
+        $audios = Music::forPage($request->page, 10)->get();
         $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
 
         return view('music.include.new_audio', compact('audios', 'playlist_user', 'playlists'));
@@ -127,12 +142,12 @@ class MusicController extends Controller
 
     public function search(Request $request)
     {
-        $musics = Music::where('name','LIKE', '%'.$request->search.'%')->get();
+        $musics = Music::where('name', 'LIKE', '%' . $request->search . '%')->get();
         $genres = Genre::all();
-        if(\Auth::check()) {
+        if (\Auth::check()) {
             $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
             return view('music.search', compact('musics', 'genres', 'playlist_user'));
-        }else{
+        } else {
             return view('music.search', compact('musics', 'genres'));
         }
 

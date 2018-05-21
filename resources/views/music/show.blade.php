@@ -4,10 +4,10 @@
     <div class="text-center">
         @if(\Auth::check() && \Auth::user()->isAdmin == 1 )
             <a href="{{route('music.edit', $music->id)}}">
-                <button class="btn btn-primary">Edit</button>
+                <button class="btn btn-primary">Редагувати</button>
             </a>
             <a href="{{route('music.delete', $music->id)}}">
-                <button class="btn btn-danger">Delete</button>
+                <button class="btn btn-danger">Видалити</button>
             </a>
         @endif
         <br/>

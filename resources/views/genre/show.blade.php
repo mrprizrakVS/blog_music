@@ -26,10 +26,10 @@
 
                 @if(\Auth::check() && \Auth::user()->isAdmin == 1 )
                     <a href="{{route('genre.edit', $genre->id)}}">
-                        <button class="btn btn-primary">Edit</button>
+                        <button class="btn btn-primary">Редагувати</button>
                     </a>
                     <a href="{{route('genre.delete', $genre->id)}}">
-                        <button class="btn btn-danger">Delete</button>
+                        <button class="btn btn-danger">Видалити</button>
                     </a>
                 @endif
                 <br/>

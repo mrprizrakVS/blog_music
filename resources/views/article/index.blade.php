@@ -4,7 +4,7 @@
         @if(\Auth::check() && \Auth::user()->isAdmin == 1 )
             <div class="text-center">
             <a href="{{route('article.create')}}">
-                <button class="btn btn-primary">Create</button>
+                <button class="btn btn-primary">Створити</button>
             </a><br/>
             <br/>
             </div>
@@ -23,5 +23,6 @@
                     </div>
 
             @endforeach
+            {{$articles->links()}}
         </div>
 @endsection

@@ -5,8 +5,8 @@
                     <option value="" selected
                     ></option>
                     @foreach($playlist_user as $item)
-                        <option value="{{$audio->id}}"
-                        >{{$audio->name}}</option>
+                        <option value="{{$item->id}}"
+                        >{{$item->name}}</option>
                     @endforeach
                 </select>
         </p>

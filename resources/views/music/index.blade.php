@@ -25,7 +25,7 @@
 
                 @if(\Auth::check() && \Auth::user()->isAdmin == 1 )
                     <a href="{{route('music.create')}}">
-                        <button class="btn btn-primary">Create</button>
+                        <button class="btn btn-primary">Створити</button>
                     </a>
                     <br/>
                 @endif
@@ -116,7 +116,7 @@
             var pagee = 2;
             var countaudio = "{{$musics->count()}}";
 //            load_audio(pagee);
-            if (countaudio >= 10) {
+            if (countaudio >= 9) {
                 $(window).scroll(function () {
                     if ($(window).scrollTop() + $(window).height() >= $(document).height() && !inProgress) {
                         inProgress = true;
