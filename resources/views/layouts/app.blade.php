@@ -62,10 +62,10 @@
             <div class="search_block col-lg-3 col-md-4 col-sm-5 col-xs-12">
                 <form class="search" action="{{route('music.search')}}" method="POST">
                     {!! csrf_field() !!}
-                    <input type="text" name="search" placeholder="Шукати..." value="{{old('search')}}"> <i
+                    <input type="text" name="search" placeholder="Шукати..." value="{{old('search')}}" > <i
                             class="search_button fa fa-search"
                             aria-hidden="true"></i>
-                    <button class="btn btn-primary" type="submit">Шукати</button>
+                    <button class="btn btn-primary" type="submit" style="margin-left: -27px; height: 37px; margin-top: -3px;">Шукати</button>
                 </form>
             </div>
         </div>
