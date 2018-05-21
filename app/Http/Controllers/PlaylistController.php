@@ -18,7 +18,7 @@ class PlaylistController extends Controller
 
     public function show($id)
     {
-        $playlists = Playlist::findOrFail($id);
+        $playlists = Playlist::findOrFail($id)->load('music');
         $genres = Genre::all();
         $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
         return view('playlist.show', compact('playlists', 'playlist_user', 'genres'));
