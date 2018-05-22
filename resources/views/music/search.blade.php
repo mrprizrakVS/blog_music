@@ -21,20 +21,20 @@
                 </div>
             </div>
 
-            <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12 text-center">
+            <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12">
 
                 <br/>
                 <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
                 <audio id="audio" src="" controls {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}
-                style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
+                style=" background-color: #ccc; border-top: 1px solid #009be3;"></audio>
                 <div class="jp-playlist" style="font-size: 14px;">
-                    <ul>
+                    <ul class="liborder">
                         <div id="playlist">
-                            @foreach($musics as $music)
+                            @forelse($musics as $music)
                                 <li>
-                                    <p><span id="{{asset($music->audio_url)}}">{{$music->name}}</span>
+                                    <p><span class="music_list" id="{{asset($music->audio_url)}}">{{$music->name}}</span>
                                         @if(!auth()->guard()->guest())
-                                            <select name="playlist_id" id="playlist_id" data-music="{{$music->id}}">
+                                            <select name="playlist_id" id="playlist_id" data-music="{{$music->id}}" class="add_playlist">
                                                 <option value="" selected
                                                 ></option>
                                                 @foreach($playlist_user as $item)
@@ -45,10 +45,11 @@
                                         @endif
                                     </p>
                                 </li>
-
-
-                            @endforeach
-
+                                @empty
+                                <li>
+                                    <p>Empty</p>
+                                </li>
+                            @endforelse
                         </div>
                     </ul>
                 </div>

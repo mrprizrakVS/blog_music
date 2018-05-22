@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GenreRequest;
 use App\Models\Genre;
+use App\Models\Music;
 use App\Models\Playlist;
+use Illuminate\Http\Request;
 
 class GenreController extends Controller
 {
@@ -73,5 +75,13 @@ class GenreController extends Controller
         } else {
             return redirect(route('genre.index'));
         }
+    }
+
+    public function loadAudio($id, Request $request)
+    {
+//        $audios = Music::forPage($request->page, 10)->orderBy('created_at', 'desc')->get();
+        $audios = Genre::with('music')->findOrFail($id)->music()->forPage($request->page, 10)->get();
+//        dd($audios);
+        return view('genre.include.new_audio', compact('audios'));
     }
 }

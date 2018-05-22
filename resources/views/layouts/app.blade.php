@@ -62,10 +62,10 @@
             <div class="search_block col-lg-3 col-md-4 col-sm-5 col-xs-12">
                 <form class="search" action="{{route('music.search')}}" method="POST">
                     {!! csrf_field() !!}
-                    <input type="text" name="search" placeholder="Шукати..." value="{{old('search')}}" > <i
+                    <input type="text" name="search" id="search" placeholder="Шукати..." value="{{old('search')}}" > <i
                             class="search_button fa fa-search"
                             aria-hidden="true"></i>
-                    <button class="btn btn-primary" type="submit" style="margin-left: -27px; height: 37px; margin-top: -3px;">Шукати</button>
+                    <button class="btn btn-primary invisible" id="search_btn" type="submit" style="margin-left: -27px; height: 37px; margin-top: -3px;" hidden>Шукати</button>
                 </form>
             </div>
         </div>
@@ -79,7 +79,9 @@
 
                     <li><a href="{{route('article.index')}}">Новини</a></li>
                     <li><a href="{{route('music.index')}}">Музика</a></li>
+                    @if(\Auth::check())
                     <li><a href="{{route('playlist.index')}}">Плейлисти</a></li>
+                    @endif
                     @if(\Auth::check() && \Auth::user()->isAdmin == 1)
                         <li><a href="{{route('genre.index')}}">Жанри</a></li>
                     @endif
@@ -112,6 +114,12 @@
     </div>
 
 </div>
-
+<script>
+    $(document).ready(function () {
+        if(e.keyCode == 13) {
+            $('#search_btn').submit();
+        }
+    });
+</script>
 </body>
 </html>

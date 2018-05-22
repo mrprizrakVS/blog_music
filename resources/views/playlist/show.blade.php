@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12 text-center">
+            <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12">
 
                 @if(\Auth::check())
                     <a href="{{route('playlist.edit', $playlists->id)}}">
@@ -47,35 +47,17 @@
                 <br/>
                 <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
                 <audio id="audio" src="" controls {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}
-                style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
+                style=" background-color: #ccc; border-top: 1px solid #009be3;"></audio>
                 <div class="jp-playlist" style="font-size: 14px;">
-                    <ul>
+                    <ul class="liborder">
                         <div id="playlist">
-                            @foreach($playlists->music()->paginate(10) as $playlist)
+                            @foreach($playlists->music()->paginate(10) as $music)
                                 <li>
-                                    <p><span id="{{asset($playlist->audio_url)}}">{{$playlist->name}}</span>
-                                        @if(!auth()->guard()->guest())
-                                            @if(\Auth::user()->id != $playlists->user_id)
-                                                <select name="playlist_id" id="playlist_id"
-                                                        data-music="{{$playlist->id}}">
-                                                    <option value="" selected
-                                                    ></option>
-                                                    @foreach($playlist_user as $item)
-                                                        <option value="{{$item->id}}"
-                                                        >{{$item->name}}</option>
-                                                    @endforeach
-                                                </select>
-                                            @endif
-                                        @else
-                                            <a href="#" id="delete_music" data-playlist="{{$playlists->id}}"
-                                               data-music="{{$playlist->id}}" style="display: inline;">Видалити</a>
-                                        @endif
+                                    <p><span class="music_list" id="{{asset($music->audio_url)}}">{{$music->name}}</span> <a href="#" id="delete_music" data-playlist="{{$playlists->id}}" data-music="{{$music->id}}" style="display: inline;">Видалити</a>
                                     </p>
+
                                 </li>
-
-
                             @endforeach
-
                         </div>
                     </ul>
                 </div>
@@ -148,28 +130,28 @@
                 });
             }
 
-            $(document).on('change', '#playlist_id', function (event) {
-                event.preventDefault();
-                var playlist_id = $(this).val();
-                var music_id = $(this).data("music");
-                $.ajax({
-                    url: "{{route('playlist.add')}}",
-                    data: {
-                        'playlist_id': playlist_id,
-                        'music_id': music_id
-                    },
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': "{!! csrf_token()!!}"
-                    },
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (jqXHR, ajaxOptions, thrownError) {
-                        alert('Не додано в плейлист!');
-                    }
-                });
-            });
+            {{--$(document).on('change', '#playlist_id', function (event) {--}}
+                {{--event.preventDefault();--}}
+                {{--var playlist_id = $(this).val();--}}
+                {{--var music_id = $(this).data("music");--}}
+                {{--$.ajax({--}}
+                    {{--url: "{{route('playlist.add')}}",--}}
+                    {{--data: {--}}
+                        {{--'playlist_id': playlist_id,--}}
+                        {{--'music_id': music_id--}}
+                    {{--},--}}
+                    {{--type: 'POST',--}}
+                    {{--headers: {--}}
+                        {{--'X-CSRF-TOKEN': "{!! csrf_token()!!}"--}}
+                    {{--},--}}
+                    {{--success: function (data) {--}}
+                        {{--console.log(data);--}}
+                    {{--},--}}
+                    {{--error: function (jqXHR, ajaxOptions, thrownError) {--}}
+                        {{--alert('Не додано в плейлист!');--}}
+                    {{--}--}}
+                {{--});--}}
+            {{--});--}}
             $(document).on('click', '#delete_music', function (event) {
                 event.preventDefault();
                 var playlist_id = $(this).data("playlist");

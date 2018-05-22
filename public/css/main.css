@@ -154,9 +154,12 @@
 
 .footer{
    	margin-top: 50px;
-	min-height: 70px;
+	min-height: 30px;
+    height: 40px;
 	width: 100%;
 	background: #606666;
+    position: fixed;
+    bottom: 0px;
 }
 .footer span{
     margin-top: 25px;
@@ -244,3 +247,36 @@
     text-align: center;
 }
 /*-------end music----*/
+
+ul {
+    list-style-type: none;
+}
+li{
+    cursor: pointer;
+}
+.add_playlist{
+    float: right;
+}
+.music_list{
+    text-align: left;
+}
+.liborder li:hover {
+    background: #fcfcfc;
+    padding: 5px;
+    border-radius: 8px;
+}
+.liborder li {
+    padding: 5px;
+}
+audio{
+    position: fixed;
+    bottom: 40px;
+    width: 60%;
+}
+#name{
+    position: fixed;
+    bottom: 70px;
+}
+.jp-playlist{
+    padding-bottom: 50px;
+}

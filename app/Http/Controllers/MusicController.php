@@ -134,7 +134,7 @@ class MusicController extends Controller
 
     public function loadAudio(Request $request)
     {
-        $audios = Music::forPage($request->page, 10)->get();
+        $audios = Music::forPage($request->page, 10)->orderBy('created_at', 'desc')->get();
         $playlist_user = Playlist::all()->where('user_id', \Auth::user()->id);
 
         return view('music.include.new_audio', compact('audios', 'playlist_user', 'playlists'));

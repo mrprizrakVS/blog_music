@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-            <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12 text-center">
+            <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12">
 
                 @if(\Auth::check() && \Auth::user()->isAdmin == 1 )
                     <a href="{{route('genre.edit', $genre->id)}}">
@@ -37,23 +37,13 @@
                 <hr>
                 <div id="name" style="background-color: #9E9E9E; width: 100%;"></div>
                 <audio id="audio" src="" controls {!! !\Auth::check() ? 'controlsList="nodownload"' : null !!}
-                style=" width: 100%; background-color: #ccc; border-top: 1px solid #009be3;"></audio>
+                style=" background-color: #ccc; border-top: 1px solid #009be3;"></audio>
                 <div class="jp-playlist" style="font-size: 14px;">
-                    <ul>
+                    <ul class="liborder">
                         <div id="playlist">
                             @foreach($genre->music as $music)
                                 <li>
-                                    <p><span id="{{asset($music->audio_url)}}">{{$music->name}}</span>
-                                        <select name="playlist_id" id="playlist_id" data-music="{{$music->id}}">
-                                            <option value="" selected
-                                            ></option>
-                                            @guest
-                                                @foreach($playlist_user as $item)
-                                                    <option value="{{$item->id}}"
-                                                    >{{$item->name}}</option>
-                                                @endforeach
-                                            @endguest
-                                        </select>
+                                    <p><span class="music_list" id="{{asset($music->audio_url)}}">{{$music->name}}</span>
                                     </p>
                                 </li>
                             @endforeach
@@ -68,7 +58,7 @@
             function load_audio(page) {
                 var _page = page;
                 $.ajax({
-                    url: "{{route('music.load.audio')}}",
+                    url: "{{route('genre.load.audio', $genre->id)}}",
                     data: {'page': _page},
                     success: function (html) {
                         $("#playlist").append(html);
@@ -126,52 +116,7 @@
                 });
             }
 
-            $(document).on('change', '#playlist_id', function (event) {
-                event.preventDefault();
-                var playlist_id = $(this).val();
-                var music_id = $(this).data("music");
-                $.ajax({
-                    url: "{{route('playlist.add')}}",
-                    data: {
-                        'playlist_id': playlist_id,
-                        'music_id': music_id
-                    },
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': "{!! csrf_token()!!}"
-                    },
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (jqXHR, ajaxOptions, thrownError) {
-                        alert('Не додано в плейлист!');
-                    }
-                });
-            });
-            $(document).on('click', '#delete_music', function (event) {
-                event.preventDefault();
-                var playlist_id = $(this).data("playlist");
-                var music_id = $(this).data("music");
-                $.ajax({
-                    url: "{{route('playlist.add')}}",
-                    data: {
-                        'playlist_id': playlist_id,
-                        'music_id': music_id
-                    },
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': "{!! csrf_token()!!}"
-                    },
-                    success: function (data) {
-                        $(this).css("display", "none");
-                        alert('Bидалено!');
-                        location.reload();
-                    },
-                    error: function (jqXHR, ajaxOptions, thrownError) {
-                        alert('Не видалено!');
-                    }
-                });
-            });
+
         });
     </script>
 @endsection

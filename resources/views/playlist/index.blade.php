@@ -19,7 +19,7 @@
 
                 </div>
             </div>
-            <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12 text-center">
+            <div class=" col-lg-10 col-md-9 col-sm-7 col-xs-12">
                 @if(\Auth::check())
                     <a href="{{route('playlist.create')}}">
                         <button class="btn btn-primary">Create</button>

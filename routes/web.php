@@ -34,6 +34,7 @@ Route::group(['prefix' => 'genre'], function () {
     Route::get('/edit/{id}', 'GenreController@edit')->name('genre.edit');
     Route::put('/edit/{id}', 'GenreController@update')->name('genre.update');
     Route::get('/delete/{id}', 'GenreController@destroy')->name('genre.delete');
+    Route::get('/load-audio/{id}', 'GenreController@loadAudio')->name('genre.load.audio');
 });
 Route::group(['prefix' => 'music'], function () {
     Route::get('/', 'MusicController@index')->name('music.index');

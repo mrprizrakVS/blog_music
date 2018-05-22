@@ -17,13 +17,11 @@
             <div class="container">
                 <div class="row">
 
-                    @if(!empty($article->img_url))
-                        {!! !empty($article->img_url) ? '<img src="'. asset($article->img_url) .'" alt="'.$article->title.'" style="width:600px; height: 600px; "><br/>' : null !!}
-                    @endif
 
 
                     <div class="newsp">
                         <p>
+                                {!! !empty($article->img_url) ? '<img src="'. asset($article->img_url) .'" alt="'.$article->title.'" class="newsimg"><br/>' : null !!}
                             {{$article->full_text}}
                         </p>
                     </div>
