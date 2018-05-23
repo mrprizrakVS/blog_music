@@ -17,6 +17,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+
+
 Route::group(['prefix' => 'article'], function () {
     Route::get('/', 'ArticleController@index')->name('article.index');
     Route::get('/create', 'ArticleController@create')->name('article.create');
@@ -25,6 +27,15 @@ Route::group(['prefix' => 'article'], function () {
     Route::get('/edit/{id}', 'ArticleController@edit')->name('article.edit');
     Route::put('/edit/{id}', 'ArticleController@update')->name('article.update');
     Route::get('/delete/{id}', 'ArticleController@destroy')->name('article.delete');
+});
+Route::group(['prefix' => 'user'], function () {
+//    Route::get('/', 'UserProfileController@index')->name('user.index');
+//    Route::get('/create', 'UserProfileController@create')->name('user.create');
+//    Route::post('/store', 'UserProfileController@store')->name('user.store');
+    Route::get('/show/{id}', 'UserProfileController@show')->name('user.show');
+    Route::get('/edit/{id}', 'UserProfileController@edit')->name('user.edit');
+    Route::put('/edit/{id}', 'UserProfileController@update')->name('user.update');
+    Route::get('/delete/{id}', 'UserProfileController@destroy')->name('user.delete');
 });
 Route::group(['prefix' => 'genre'], function () {
     Route::get('/', 'GenreController@index')->name('genre.index');

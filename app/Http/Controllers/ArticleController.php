@@ -34,24 +34,27 @@ class ArticleController extends Controller
     public function store(Request $request)
     {
         if (\Auth::check() && \Auth::user()->isAdmin == 1) {
+//            dd($request->all());
+
+            $rules = [
+                'title' => 'required|min:3|max:191',
+                'img_url' => 'mimes:jpeg,png,jpg,gif',
+                'description' => 'required|min:3|max:191',
+                'full_text' => 'required|min:3',
+            ];
+
+            $validation = Validator::make($request->all(), $rules);
+            if ($validation->fails()) {
+                return redirect(route('article.create'))
+                    ->with('message', 'Помилка доданя новини, заповніть всі поля')
+                    ->with('status', 'danger');
+            }
             $image_path = '';
             if ($request->hasfile('img_url')) {
                 $file = $request->file('img_url');
                 $extension = $file->getClientOriginalExtension();
                 $filename = time() . '.' . $extension;
                 $image_path = $file->move('uploads/images/', $filename);
-            }
-            $rules = [
-                'title' => 'required|min:3|max:191',
-                'img_url' => 'min:0|image|mimes:jpeg,png,jpg,gif,svg',
-                'description' => 'required|min:3|max:191',
-                'full_text' => 'required|min:3',
-            ];
-            $validation = Validator::make($request->all(), $rules);
-            if ($validation->fails()) {
-                return redirect(route('article.create'))
-                    ->with('message', 'Помилка доданя новини, заповніть всі поля')
-                    ->with('status', 'danger');
             }
             Article::create([
                 'title' => $request->title,

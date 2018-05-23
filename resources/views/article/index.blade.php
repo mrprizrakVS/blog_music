@@ -9,7 +9,7 @@
             <br/>
             </div>
         @endif
-        <div class="container">
+        <div class="container up-footer">
             @foreach($articles as $article)
                     <div class="anons">
                         <div class="row">

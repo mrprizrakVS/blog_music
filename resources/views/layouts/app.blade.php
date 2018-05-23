@@ -37,6 +37,9 @@
                 @else
                     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-4">
                         <div class="login">
+                            <span>
+                                <a href="{{route('user.edit', \Auth::user()->id)}}">Профіль</a>
+                            </span>
                             <span><a href="{{ route('logout') }}"
                                      onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -46,6 +49,7 @@
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 @csrf
                             </form>
+
                         </div>
                         @endguest
                     </div>
@@ -96,7 +100,7 @@
 <div class="container">
     <div class="row">
         <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="content">
+            <div class="content  up-footer">
 
                 @yield('content')
             </div>
