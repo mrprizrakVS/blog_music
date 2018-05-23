@@ -68,5 +68,5 @@ Route::group(['prefix' => 'playlist', 'middleware' => 'auth'], function () {
     Route::put('/edit/{id}', 'PlaylistController@update')->name('playlist.update');
     Route::get('/delete/{id}', 'PlaylistController@destroy')->name('playlist.delete');
     Route::get('/load-audio/{id}/{page}', 'PlaylistController@loadAudio')->name('playlist.load.audio');
-    Route::get('/playlist-add', 'PlaylistController@addPlaylist')->name('playlist.add');
+    Route::post('/playlist-add', 'PlaylistController@addPlaylist')->name('playlist.add');
 });
